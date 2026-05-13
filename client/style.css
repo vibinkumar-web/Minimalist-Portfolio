@@ -1,0 +1,893 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Premium Matte Black Palette */
+    --bg-dark: #050505;
+    --bg-card: #0f0f0f;
+    --bg-secondary: #0a0a0a;
+    --bg-glass: rgba(255, 255, 255, 0.02);
+
+    /* Accents */
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-cyan: #06b6d4;
+    --border-dim: rgba(255, 255, 255, 0.05);
+
+    /* Text */
+    --text-main: #ffffff;
+    --text-muted: #a3a3a3;
+    --text-dim: #525252;
+
+    /* Gradients */
+    --grad-main: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    --grad-glow: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(139, 92, 246, 0.5));
+
+    /* Spacing */
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 6rem;
+
+    /* Effects */
+    --blur: 16px;
+    --glow: 0 0 30px rgba(59, 130, 246, 0.2);
+    --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+
+    /* Typography */
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Transitions */
+    --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base Reset & Jail Lock */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    /* Strict Jail: prevents outer page scroll */
+}
+
+html {
+    font-size: 16px;
+    background-color: var(--bg-dark);
+    scroll-behavior: smooth;
+    /* Hide scrollbar for cleaner look if desired, or custom styling */
+    scrollbar-width: thin;
+    scrollbar-color: #333 var(--bg-dark);
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Scroll Snap Container */
+.scroll-container {
+    height: 100vh;
+    overflow-y: scroll;
+    /* Soft snap (proximity) prevents the "hard lock" hang feel */
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+
+    /* Alignment correction for fixed navbar */
+    scroll-padding-top: 80px;
+
+    /* Native Momentum Scrolling (Mobile/Touchpad feel) */
+    -webkit-overflow-scrolling: touch;
+
+    /* Prevents scroll chaining/rubber-banding to make it feel solid ("Jail") but smooth */
+    overscroll-behavior-y: contain;
+
+    will-change: scroll-position;
+}
+
+/* General Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+.section-snap {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Utilities */
+.gradient-text {
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.glow-text {
+    text-shadow: var(--glow);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Components */
+.btn {
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--grad-main);
+    color: white;
+    box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.4);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.6);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.3s;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.5rem 0;
+    transition: all 0.4s;
+}
+
+.navbar.scrolled {
+    padding: 1rem 0;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-dim);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--grad-main);
+    transition: width 0.3s var(--ease-out);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    overflow: hidden;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 20s infinite ease-in-out;
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--accent-blue);
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent-purple);
+    bottom: 10%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent-cyan);
+    top: 30%;
+    right: 20%;
+    opacity: 0.2;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    33% {
+        transform: translate(30px, -30px);
+    }
+
+    66% {
+        transform: translate(-20px, 20px);
+    }
+}
+
+.hero-content {
+    z-index: 2;
+    position: relative;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    font-weight: 800;
+    margin-bottom: 2rem;
+}
+
+.hero-desc {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 4px;
+    height: 1em;
+    background: var(--accent-blue);
+    margin-left: 0.2rem;
+    vertical-align: middle;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent-purple), transparent);
+    animation: scrollDown 2s infinite;
+}
+
+@keyframes scrollDown {
+    0% {
+        transform: scaleY(0);
+        transform-origin: top;
+    }
+
+    50% {
+        transform: scaleY(1);
+        transform-origin: top;
+    }
+
+    51% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+
+    100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+}
+
+/* --- ABOUT --- */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.section-title-left {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.large-text {
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: white;
+}
+
+.focus-areas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.focus-item {
+    background: var(--bg-card);
+    padding: 2rem 1rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border-dim);
+    transition: 0.3s;
+}
+
+.focus-item:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.focus-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-cyan);
+    display: block;
+}
+
+/* --- SKILLS --- */
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.category-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    border-left: 3px solid var(--accent-purple);
+    padding-left: 1rem;
+}
+
+.skills-grid {
+    display: grid;
+    /* Auto-fill keeps them small, center aligns the whole block */
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 12px;
+    padding: 1.25rem;
+
+    /* Flexbox for perfect centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    transition: all 0.4s var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    /* Ensure it fills grid cell */
+}
+
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1), transparent 70%);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.skill-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: var(--accent-blue);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.skill-card:hover::before {
+    opacity: 1;
+}
+
+.skill-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    color: #ccc;
+    transition: 0.3s;
+}
+
+.skill-card:hover .skill-icon {
+    color: white;
+    transform: scale(1.1);
+}
+
+/* --- PROJECTS (STACKING) --- */
+.projects-stack-container {
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    /* Fallback for non-sticky */
+    align-items: center;
+}
+
+.sticky-card {
+    position: sticky;
+    top: 15vh;
+    /* Keep them stacked near top */
+    width: 100%;
+    max-width: 1000px;
+    height: 70vh;
+    /* Fixed height for consistent stacking */
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+    /* Shadow upward to separate form lower cards */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    overflow: hidden;
+    transform-origin: center top;
+    transition: transform 0.5s ease-out;
+    /* Smooth stack effect */
+    margin-bottom: 4rem;
+    /* spacing between cards in flow */
+}
+
+/* Card Visuals */
+.project-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 3rem;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.project-number {
+    font-size: 5rem;
+    font-weight: 800;
+    opacity: 0.05;
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+}
+
+.project-card h3 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.project-desc {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.tech-stack {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tech-badge {
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-dim);
+}
+
+.project-visual {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-dim);
+}
+
+.visual-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e1e24, #121212);
+    position: relative;
+    transition: transform 0.5s;
+}
+
+.visual-placeholder.hue-2 {
+    filter: hue-rotate(45deg);
+}
+
+.visual-placeholder.hue-3 {
+    filter: hue-rotate(90deg);
+}
+
+.project-card:hover .visual-placeholder {
+    transform: scale(1.05);
+}
+
+/* --- CONTACT --- */
+.contact-section {
+    background: var(--bg-secondary);
+}
+
+.contact-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.contact-email {
+    font-size: 1.5rem;
+    color: var(--accent-blue);
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.contact-form-wrapper {
+    background: var(--bg-card);
+    padding: 3rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-dim);
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.form-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1rem 0;
+    color: white;
+    font-size: 1rem;
+    z-index: 2;
+    position: relative;
+}
+
+.form-input:focus {
+    outline: none;
+}
+
+.input-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #333;
+    transition: 0.3s;
+}
+
+.form-input:focus~.input-border {
+    background: var(--accent-purple);
+}
+
+.form-label {
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    color: var(--text-dim);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.form-input:focus~.form-label,
+.form-input:not(:placeholder-shown)~.form-label {
+    top: -10px;
+    font-size: 0.8rem;
+    color: var(--accent-purple);
+}
+
+/* --- FOOTER --- */
+.footer-section {
+    padding: 6rem 0;
+    background: var(--bg-dark);
+    /* Match body or slight contrast if preferred */
+    border-top: 1px solid var(--border-dim);
+    text-align: center;
+    position: relative;
+    width: 100%;
+    scroll-snap-align: start;
+    /* Optional: keep it snap-friendly but not fullscreen */
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.social-icon {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    color: var(--accent-blue);
+    transform: translateY(-5px);
+}
+
+.footer-bottom {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.copyright {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* --- ANIMATION CLASSES (To be triggered by JS) --- */
+/* Base States */
+.reveal-fade-up,
+.reveal-text,
+.reveal-scale,
+.reveal-pop,
+.reveal-fade-right {
+    opacity: 0;
+    opacity: 0;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    /* Apple-style smoothness fix */
+}
+
+/* 1. Fade Up */
+.reveal-fade-up {
+    transform: translateY(50px);
+    transition: 0.8s var(--ease-out);
+}
+
+.reveal-fade-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 2. Text Reveal (Clip Path) */
+.reveal-text {
+    opacity: 1;
+    /* Handle via clip-path */
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+    transform: translateY(20px);
+    transition: 1s var(--ease-out);
+}
+
+.reveal-text.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translateY(0);
+}
+
+/* 3. Scale In */
+.reveal-scale {
+    transform: scale(0.8);
+    transition: 0.6s var(--ease-out);
+}
+
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 4. Pop In (Skills) */
+.reveal-pop {
+    transform: scale(0.5);
+    transition: 0.5s var(--ease-out);
+}
+
+.reveal-pop.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 5. Fade Right */
+.reveal-fade-right {
+    transform: translateX(-30px);
+    transition: 0.8s var(--ease-out);
+}
+
+.reveal-fade-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Stagger Delays */
+.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.delay-300 {
+    transition-delay: 0.3s;
+}
+
+/* Mobile Responsive */
+@media (max-width: 968px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .scroll-container {
+        scroll-snap-type: none;
+        height: auto;
+    }
+
+    /* Disable snap on mobile often better UX */
+    .section-snap {
+        min-height: auto;
+        padding: 4rem 0;
+    }
+
+    .about-grid,
+    .contact-split,
+    .project-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .project-card {
+        height: auto;
+        position: relative;
+        top: 0 !important;
+    }
+
+    /* Disable sticky stack on mobile */
+    .sticky-card {
+        margin-bottom: 2rem;
+    }
+
+    .footer-section {
+        padding: 4rem 0;
+    }
+}

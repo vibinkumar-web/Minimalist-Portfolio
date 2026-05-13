@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)file:///C:/Users/VIBING/Desktop/New%20portfolio/others/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Auto Horizontal Image Scroll</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .scroll-container {
+      display: flex;
+      width: 200%;
+      animation: scroll 20s linear infinite;
+    }
+
+    .scroll-wrapper {
+      width: 100vw;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .scroll-container img {
+      height: 200px;
+      margin: 0 10px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-wrapper">
+    <div class="scroll-container">
+      <!-- Repeat the images twice for infinite loop -->
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img1.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img2.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img3.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img4.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img5.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img6.png" alt="">
+
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img1.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img2.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img3.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img4.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img5.png" alt="">
+      <img src="file:///C:/Users/VIBING/Desktop/New%20portfolio/others/img6.png" alt="">
+    </div>
+  </div>
+
+
+</body></html>
